@@ -63,3 +63,25 @@ const biodataSchema = joi.object({
 const idSchema = joi.object({
     id: joi.number().integer().positive().required(),
 })
+
+function validateBody(schema, data) {
+
+    return (req, res, next) => {
+        const { error } = schema.validate(req.body,{
+            abortEarly: false,
+            allowUnknown: false,
+            Comment: true,
+        });
+        if (error) {
+            return errorResponse(
+                res,
+                 'Validasi input gagal',
+                  400,
+                   error.details.map(item => ({
+                    field: item.path.join('.'),
+                     message: item.message})));
+        }
+        req.body = value
+        next()
+    }
+}
