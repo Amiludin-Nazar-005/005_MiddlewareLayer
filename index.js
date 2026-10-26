@@ -110,3 +110,15 @@ app.get('/', async (req, res) => {
 
     return successresponse(res, 'Data berhasil diambil', 200, result.rows)
 })
+
+app.post('/biodata', validateBody(biodataSchema), async (req, res) => {
+    const { id, nama, nim, kelas } = req.body;
+
+    const result = await pool.query(
+        'INSERT INTO biodata (id, nama, nim, kelas) VALUES ($1, $2, $3, $4) RETURNING *',
+        [id, nama, nim, kelas]
+    )
+
+    return successresponse(res, 'Data berhasil ditambahkan', 201, result.rows[0])
+
+})
