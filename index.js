@@ -85,3 +85,22 @@ function validateBody(schema, data) {
         next()
     }
 }
+
+function validateParams(schema) {
+    return (req, res, next) => {
+        const { error, value } = schema.validate(req.params,)
+        if (error) {
+            return errorResponse(
+                res,
+                'paramater tidak valid',
+                400,
+                error.details.map(item => ({
+                    field: item.path.join('.'),
+                    message: item.message
+                }))
+            );
+        }
+        req.params = value;
+        next();
+    };
+}
