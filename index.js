@@ -43,3 +43,12 @@ function errorResponse(res, message,status, details = null) {
         details,
     });
 }
+
+function successResponse(res, message, status, details = null) {
+    return res.status(status).json({
+        success: false,
+        message,
+        details: null,
+        error: details,
+    });
+}
