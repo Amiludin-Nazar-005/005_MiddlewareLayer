@@ -140,3 +140,7 @@ app.put('/biodata/:id', validateParams(idSchema), validateBody(biodataSchema.for
 
     return successresponse(res, 'Data berhasil diubah', result.rows[0])
 }
+
+app.use((req, res) => {
+    return errorResponse(res, 'Endpoint tidak ditemukan', 404)
+})
